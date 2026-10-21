@@ -39,12 +39,12 @@ Building takes 1–3 minutes and about 1 GB of disk for the build cache.
 
 ## A. Static binary (x86_64 Linux)
 
-The file `bin/yafm-VERSION-x86_64-linux-musl` runs on any x86_64 Linux,
+The file `yafm-VERSION-x86_64-linux-musl` runs on any x86_64 Linux,
 whatever its C library version.
 
 ```sh
 # on your machine: copy it to the remote machine
-scp bin/yafm-0.1.3-x86_64-linux-musl user@remote:/tmp/yafm
+scp yafm-0.1.3-x86_64-linux-musl user@remote:/tmp/yafm
 
 # on the remote machine: install for all users …
 sudo install -m 755 /tmp/yafm /usr/local/bin/yafm
@@ -54,11 +54,12 @@ install -D -m 755 /tmp/yafm ~/.local/bin/yafm
 yafm --version
 ```
 
-`bin/yafm-VERSION-x86_64-linux-gnu` is the same program linked against the
+`yafm-VERSION-x86_64-linux-gnu` is the same program linked against the
 system C library; it needs glibc 2.39 or newer (Ubuntu 24.04, Debian 13,
 Fedora 40 or later; check with `ldd --version`), so prefer the `musl` one.
 
-Check a download with `sha256sum -c SHA256SUMS`.
+Check the downloads with `sha256sum -c --ignore-missing SHA256SUMS` (run it in
+the folder holding the downloaded files and SHA256SUMS).
 
 ## B. Build from source (with internet)
 

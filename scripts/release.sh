@@ -39,9 +39,9 @@ python3 -I tests/pty_smoke.py "$musl"
 
 echo "== package $out"
 rm -rf "$out"
-mkdir -p "$out/bin" "$out/src"
-cp "$musl" "$out/bin/$name-x86_64-linux-musl"
-cp target/x86_64-unknown-linux-gnu/release/yafm "$out/bin/$name-x86_64-linux-gnu"
+mkdir -p "$out/src"
+cp "$musl" "$out/$name-x86_64-linux-musl"
+cp target/x86_64-unknown-linux-gnu/release/yafm "$out/$name-x86_64-linux-gnu"
 git archive --format=tar --prefix="$name/" HEAD | tar -x -C "$out/src"
 tar -C "$out/src" -czf "$out/$name-src.tar.gz" "$name"
 
@@ -75,11 +75,12 @@ PY
 tar -C "$vend" -czf "$out/$name-src-vendored.tar.gz" "$name"
 
 cp README.md INSTALL.md COPYING "$out/"
-(cd "$out" && sha256sum bin/* ./*.tar.gz > SHA256SUMS)
+# Flat names, so SHA256SUMS also checks files downloaded side by side (GitHub assets).
+(cd "$out" && sha256sum "$name"-x86_64-* "$name"-*.tar.gz > SHA256SUMS)
 
 echo "== checks"
-file "$out/bin/$name-x86_64-linux-musl" | grep -Eq "static(-pie)? linked"
-"$out/bin/$name-x86_64-linux-musl" --version
+file "$out/$name-x86_64-linux-musl" | grep -Eq "static(-pie)? linked"
+"$out/$name-x86_64-linux-musl" --version
 (cd "$out" && sha256sum -c --quiet SHA256SUMS)
 tar -xzf "$out/$name-src-vendored.tar.gz" -C "$check"
 # An empty CARGO_HOME behaves like a fresh machine: nothing cached, no network.
