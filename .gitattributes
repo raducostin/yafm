@@ -1,0 +1,6 @@
+# Needed only to make a release, not to build or test yafm: left out of the
+# source tarballs (git archive).
+/.gitattributes export-ignore
+/docs export-ignore
+/scripts export-ignore
+/tests/pty_smoke.py export-ignore
